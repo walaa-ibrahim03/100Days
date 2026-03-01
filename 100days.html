@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مئة يوم</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --parchment: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --ember: #c0392b;
+    --sage: #2d6a4f;
+    --mist: #8a9bb0;
+    --deep: #1a1a2e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Scheherazade New', serif;
+    background: var(--deep);
+    color: var(--parchment);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Stars background */
+  .stars {
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(2px 2px at 10% 80%, rgba(201,168,76,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 15%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 85%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(2px 2px at 75% 40%, rgba(201,168,76,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 40px 0 20px;
+  }
+
+  .arabic-numeral {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    opacity: 0.7;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(201,168,76,0.3);
+    animation: breathe 4s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { text-shadow: 0 0 40px rgba(201,168,76,0.3); }
+    50% { text-shadow: 0 0 80px rgba(201,168,76,0.6), 0 0 120px rgba(201,168,76,0.2); }
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: var(--mist);
+    margin-top: 8px;
+    font-weight: 400;
+  }
+
+  /* Day counter */
+  .day-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 30px 0;
+  }
+
+  .day-display {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
+
+  .day-btn {
+    background: none;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .day-btn:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+  }
+
+  /* Progress dots - 100 day grid */
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    gap: 4px;
+    margin: 20px 0;
+    padding: 16px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .day-dot {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .day-dot.completed { background: var(--gold); }
+  .day-dot.partial { background: rgba(201,168,76,0.4); }
+  .day-dot.today { 
+    background: rgba(201,168,76,0.15);
+    border: 1px solid var(--gold);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+    50% { box-shadow: 0 0 0 4px rgba(201,168,76,0); }
+  }
+
+  /* Goals */
+  .goals-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .goal-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .goal-card:hover { border-color: rgba(201,168,76,0.3); }
+
+  .goal-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .goal-card:hover::before { opacity: 1; }
+
+  .goal-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .goal-title {
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .goal-subtitle {
+    font-size: 13px;
+    color: var(--mist);
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 16px;
+  }
+
+  /* Istighfar specific */
+  .count-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .count-input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px;
+    color: var(--parchment);
+    font-family: 'Space Mono', monospace;
+    font-size: 24px;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .count-input:focus { border-color: var(--gold); }
+
+  .count-label {
+    font-size: 12px;
+    color: var(--mist);
+    font-family: 'Space Mono', monospace;
+    text-align: center;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  /* Arc progress */
+  .arc-container {
+    display: flex;
+    justify-content: center;
+    margin: 8px 0;
+  }
+
+  svg.arc { overflow: visible; }
+
+  .arc-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 6; }
+  .arc-fill { 
+    fill: none; 
+    stroke-width: 6; 
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .arc-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    fill: var(--gold);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+
+  .arc-sub {
+    font-size: 9px;
+    fill: var(--mist);
+    font-family: 'Space Mono', monospace;
+    text-anchor: middle;
+  }
+
+  /* Study timer */
+  .study-display {
+    font-family: 'Space Mono', monospace;
+    font-size: 36px;
+    color: var(--parchment);
+    text-align: center;
+    letter-spacing: 4px;
+    margin: 8px 0;
+  }
+
+  .timer-btns {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .btn-timer {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--parchment);
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Scheherazade New', serif;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+
+  .btn-timer:hover, .btn-timer.active {
+    background: rgba(45,106,79,0.3);
+    border-color: var(--sage);
+    color: #5dba8a;
+  }
+
+  .study-bar-wrap {
+    margin-top: 12px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    height: 4px;
+    overflow: hidden;
+  }
+
+  .study-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sage), #5dba8a);
+    border-radius: 4px;
+    transition: width 1s linear;
+  }
+
+  /* AI insight card */
+  .insight-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 20px;
+    padding: 28px;
+    margin: 24px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .insight-card::after {
+    content: '✦';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 60px;
+    opacity: 0.03;
+    color: var(--gold);
+  }
+
+  .insight-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    opacity: 0.6;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .insight-label::before, .insight-label::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: rgba(201,168,76,0.2);
+  }
+
+  .insight-text {
+    font-size: 18px;
+    line-height: 1.9;
+    color: var(--parchment);
+    text-align: center;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .insight-story {
+    font-size: 15px;
+    color: var(--mist);
+    text-align: center;
+    margin-top: 16px;
+    line-height: 2;
+    font-style: italic;
+  }
+
+  .insight-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  .btn-insight {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--gold);
+    border-radius: 20px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-family: 'Scheherazade New', serif;
+    font-size: 14px;
+    transition: all 0.3s;
+  }
+
+  .btn-insight:hover {
+    background: rgba(201,168,76,0.15);
+    border-color: var(--gold);
+  }
+
+  .btn-insight:disabled {
+    opacity: 0.4;
+    cursor: wait;
+  }
+
+  .btn-save {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 8px;
+    padding: 10px 24px;
+    cursor: pointer;
+    font-family: 'Scheherazade New', serif;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 16px;
+    transition: all 0.3s;
+  }
+
+  .btn-save:hover { background: rgba(201,168,76,0.25); }
+
+  /* Motivational badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin-top: 8px;
+  }
+
+  .badge.full { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+  .badge.half { background: rgba(45,106,79,0.15); color: #5dba8a; border: 1px solid rgba(45,106,79,0.3); }
+  .badge.low { background: rgba(138,155,176,0.1); color: var(--mist); border: 1px solid rgba(138,155,176,0.2); }
+
+  /* API Key section */
+  .api-section {
+    background: rgba(255,255,255,0.02);
+    border: 1px dashed rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+
+  .api-section summary {
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--mist);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .api-input {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: var(--parchment);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    outline: none;
+  }
+
+  .api-input:focus { border-color: rgba(201,168,76,0.4); }
+
+  /* Prompt display */
+  .prompt-card {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--mist);
+    line-height: 1.8;
+    white-space: pre-wrap;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+  }
+
+  /* Streak */
+  .streak-display {
+    text-align: center;
+    margin: 8px 0;
+  }
+
+  .streak-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 40px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .streak-label {
+    font-size: 13px;
+    color: var(--mist);
+    margin-top: 4px;
+  }
+
+  /* Calligraphy symbol */
+  .calligraphy {
+    text-align: center;
+    font-size: 48px;
+    color: var(--gold);
+    opacity: 0.15;
+    margin: 10px 0;
+    letter-spacing: 8px;
+  }
+
+  /* Loading spinner */
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(201,168,76,0.3);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Notification toast */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(201,168,76,0.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-family: 'Scheherazade New', serif;
+    font-size: 16px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+    text-align: center;
+    max-width: 90vw;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 600px) {
+    .goals-wrap { grid-template-columns: 1fr; }
+    h1 { font-size: 48px; }
+    .days-grid { grid-template-columns: repeat(10, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<div class="container">
+  <header>
+    <span class="arabic-numeral">١٠٠ يوم • DAY <span id="dayNum">1</span></span>
+    <h1>مئة يوم</h1>
+    <p class="subtitle">رحلة التحوّل — ١٠٠ يوم من الالتزام</p>
+  </header>
+
+  <!-- Day Navigation -->
+  <div class="day-selector">
+    <button class="day-btn" onclick="changeDay(-1)">‹</button>
+    <span class="day-display">اليوم <span id="dayLabel">1</span> من 100</span>
+    <button class="day-btn" onclick="changeDay(1)">›</button>
+  </div>
+
+  <!-- 100 Days Grid -->
+  <div class="days-grid" id="daysGrid"></div>
+
+  <!-- Goals -->
+  <div class="goals-wrap">
+
+    <!-- Istighfar Goal -->
+    <div class="goal-card">
+      <span class="goal-icon">☽</span>
+      <div class="goal-title">الاستغفار</div>
+      <div class="goal-subtitle">GOAL: 1000 / DAY</div>
+
+      <div class="arc-container">
+        <svg class="arc" width="120" height="70" viewBox="0 0 120 70">
+          <path class="arc-bg" d="M 10 65 A 50 50 0 0 1 110 65" />
+          <path class="arc-fill" id="istArc"
+            d="M 10 65 A 50 50 0 0 1 110 65"
+            stroke="url(#goldGrad)"
+            stroke-dasharray="157"
+            stroke-dashoffset="157"
+          />
+          <defs>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#c9a84c"/>
+              <stop offset="100%" style="stop-color:#f0d078"/>
+            </linearGradient>
+          </defs>
+          <text class="arc-text" id="istPct" x="60" y="55">0%</text>
+          <text class="arc-sub" x="60" y="68">اكتمال</text>
+        </svg>
+      </div>
+
+      <div class="count-input-wrap">
+        <input type="number" class="count-input" id="istCount" placeholder="0" min="0" max="1000" 
+          oninput="updateIst()" onchange="updateIst()">
+      </div>
+      <span class="count-label">كم مرة استغفرت اليوم؟</span>
+
+      <div id="istBadge"></div>
+    </div>
+
+    <!-- Study Goal -->
+    <div class="goal-card">
+      <span class="goal-icon">✦</span>
+      <div class="goal-title">الدراسة</div>
+      <div class="goal-subtitle">GOAL: 60 MIN / DAY</div>
+
+      <div class="study-display" id="studyTime">00:00</div>
+
+      <div class="study-bar-wrap">
+        <div class="study-bar" id="studyBar" style="width:0%"></div>
+      </div>
+
+      <div style="margin: 10px 0">
+        <div class="count-label">أو أدخل الدقائق يدوياً:</div>
+        <input type="number" class="count-input" id="studyMins" placeholder="0" min="0" max="120"
+          oninput="updateStudyManual()" style="font-size:18px">
+      </div>
+
+      <div class="timer-btns">
+        <button class="btn-timer" id="timerBtn" onclick="toggleTimer()">▶ ابدأ</button>
+        <button class="btn-timer" onclick="resetTimer()">↺ إعادة</button>
+      </div>
+
+      <div id="studyBadge" style="margin-top:8px"></div>
+    </div>
+  </div>
+
+  <!-- Save Day -->
+  <button class="btn-save" onclick="saveDay()">✦ حفظ يوم <span id="saveDayNum">1</span></button>
+
+  <!-- AI Insight Card -->
+  <div class="insight-card">
+    <div class="insight-label">رؤية اليوم</div>
+    <div class="insight-text" id="insightText">
+      <span style="color:var(--mist);font-size:14px;font-family:'Space Mono',monospace">
+        أدخل بياناتك واضغط "احصل على رؤية"
+      </span>
+    </div>
+    <div class="insight-story" id="insightStory"></div>
+    <div class="insight-actions">
+      <button class="btn-insight" id="insightBtn" onclick="getInsight()">✦ احصل على رؤية</button>
+      <button class="btn-insight" onclick="togglePrompt()">{ prompt }</button>
+    </div>
+    <div class="prompt-card" id="promptCard"></div>
+  </div>
+
+  <!-- API Key -->
+  <details class="api-section">
+    <summary>⚙ إعدادات الذكاء الاصطناعي (ChatGPT API)</summary>
+    <p style="font-size:12px;color:var(--mist);margin-top:8px;line-height:1.8">
+      أدخل مفتاح OpenAI API الخاص بك للحصول على رؤى مخصصة.<br>
+      المفتاح يُحفظ في المتصفح فقط ولا يُرسل لأي مكان غير OpenAI.
+    </p>
+    <input type="password" class="api-input" id="apiKey" placeholder="sk-proj-..." 
+      oninput="saveApiKey()">
+    <div style="margin-top:8px;display:flex;gap:8px">
+      <button class="btn-insight" onclick="testAPI()" style="font-size:12px">اختبار الاتصال</button>
+    </div>
+  </details>
+
+  <!-- Streak -->
+  <div style="text-align:center;margin:24px 0">
+    <div class="calligraphy">سُبْحَانَ اللّٰه</div>
+    <div class="streak-num" id="streakNum">0</div>
+    <div class="streak-label">يوم متتالي</div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ STATE ============
+let currentDay = 1;
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+let days = {};
+
+const PROMPT_TEMPLATE = (day, istCount, studyMins, streak, history) => `
+Act as a creative spiritual-performance architect.
+Today is day ${day} of 100. The user's name is a seeker on a journey.
+
+DATA:
+- Istighfar (forgiveness prayer): ${istCount}/1000 today
+- Study time: ${studyMins}/60 minutes today  
+- Consecutive streak: ${streak} days
+- Recent history (last 3 days): ${history}
+
+Transform this data into:
+
+1. SYMBOLIC_IMAGE: A poetic 1-line description of an image that represents today's spiritual state (Arabic calligraphy style, metaphoric)
+
+2. MICRO_STORY: A 3-line emotional story about this day. Each line on a new line. Profound, minimal.
+
+3. PROGRESS_INSIGHT: One sharp psychological observation about their progress (max 2 sentences)
+
+4. PATTERN: If history shows a pattern, name it beautifully. If not enough data, write "النمط لا يزال يتشكّل"
+
+5. SURPRISING_IDEA: One creative, unexpected idea or challenge for tomorrow that relates to their goals
+
+6. ENCOURAGEMENT: One powerful motivational sentence in Arabic. Different every time. Soul-touching.
+
+Style: Elegant. Minimal. Psychologically sharp. Poetic.
+Language: Arabic primarily. 
+Format your response as JSON with keys: symbolic_image, micro_story, progress_insight, pattern, surprising_idea, encouragement
+`;
+
+// ============ INIT ============
+window.onload = () => {
+  loadData();
+  buildGrid();
+  loadApiKey();
+  loadDay(currentDay);
+};
+
+function loadData() {
+  const saved = localStorage.getItem('100days_data');
+  if (saved) days = JSON.parse(saved);
+}
+
+function saveData() {
+  localStorage.setItem('100days_data', JSON.stringify(days));
+}
+
+function loadApiKey() {
+  const key = localStorage.getItem('openai_key');
+  if (key) document.getElementById('apiKey').value = key;
+}
+
+function saveApiKey() {
+  localStorage.setItem('openai_key', document.getElementById('apiKey').value);
+}
+
+// ============ GRID ============
+function buildGrid() {
+  const grid = document.getElementById('daysGrid');
+  grid.innerHTML = '';
+  for (let i = 1; i <= 100; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'day-dot';
+    dot.title = `يوم ${i}`;
+    dot.onclick = () => { currentDay = i; loadDay(i); }
+    
+    const d = days[i];
+    if (d) {
+      const istPct = (d.ist || 0) / 1000;
+      const studyPct = (d.study || 0) / 60;
+      const avg = (istPct + studyPct) / 2;
+      if (avg >= 0.8) dot.classList.add('completed');
+      else if (avg >= 0.3) dot.classList.add('partial');
+    }
+    if (i === currentDay) dot.classList.add('today');
+    grid.appendChild(dot);
+  }
+}
+
+function loadDay(day) {
+  currentDay = day;
+  document.getElementById('dayNum').textContent = day;
+  document.getElementById('dayLabel').textContent = day;
+  document.getElementById('saveDayNum').textContent = day;
+
+  // Reset timer if running
+  if (timerRunning) toggleTimer();
+  timerSeconds = 0;
+  updateTimerDisplay();
+
+  const d = days[day] || {};
+  document.getElementById('istCount').value = d.ist || '';
+  document.getElementById('studyMins').value = d.study || '';
+
+  updateIst();
+  updateStudyManual();
+  updateStreak();
+  buildGrid();
+}
+
+// ============ CHANGE DAY ============
+function changeDay(delta) {
+  const newDay = Math.max(1, Math.min(100, currentDay + delta));
+  loadDay(newDay);
+}
+
+// ============ ISTIGHFAR ============
+function updateIst() {
+  const val = parseInt(document.getElementById('istCount').value) || 0;
+  const pct = Math.min(val / 1000, 1);
+  
+  // Update arc
+  const arcLength = 157;
+  const offset = arcLength - (arcLength * pct);
+  document.getElementById('istArc').style.strokeDashoffset = offset;
+  document.getElementById('istPct').textContent = Math.round(pct * 100) + '%';
+
+  // Color based on completion
+  const arc = document.getElementById('istArc');
+  if (pct >= 1) arc.setAttribute('stroke', 'url(#goldGrad)');
+  else if (pct >= 0.5) arc.setAttribute('stroke', 'rgba(201,168,76,0.7)');
+  else arc.setAttribute('stroke', 'rgba(201,168,76,0.4)');
+
+  // Badge
+  const badge = document.getElementById('istBadge');
+  if (pct >= 1) badge.innerHTML = '<span class="badge full">✦ اكتمل الهدف</span>';
+  else if (pct >= 0.5) badge.innerHTML = '<span class="badge half">◐ أكثر من النصف</span>';
+  else if (pct > 0) badge.innerHTML = '<span class="badge low">◌ في البداية</span>';
+  else badge.innerHTML = '';
+}
+
+// ============ STUDY TIMER ============
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timerBtn').textContent = '▶ استمرار';
+    document.getElementById('timerBtn').classList.remove('active');
+  } else {
+    timerRunning = true;
+    document.getElementById('timerBtn').textContent = '⏸ إيقاف';
+    document.getElementById('timerBtn').classList.add('active');
+    timerInterval = setInterval(() => {
+      timerSeconds++;
+      updateTimerDisplay();
+      // Auto-sync to manual field
+      const mins = Math.floor(timerSeconds / 60);
+      document.getElementById('studyMins').value = mins;
+      updateStudyBar(mins);
+      updateStudyBadge(mins);
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  if (timerRunning) toggleTimer();
+  timerSeconds = 0;
+  document.getElementById('studyMins').value = '';
+  updateTimerDisplay();
+  updateStudyBar(0);
+  document.getElementById('studyBadge').innerHTML = '';
+  document.getElementById('timerBtn').textContent = '▶ ابدأ';
+}
+
+function updateTimerDisplay() {
+  const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+  const s = String(timerSeconds % 60).padStart(2, '0');
+  document.getElementById('studyTime').textContent = `${m}:${s}`;
+}
+
+function updateStudyManual() {
+  const mins = parseInt(document.getElementById('studyMins').value) || 0;
+  timerSeconds = mins * 60;
+  updateTimerDisplay();
+  updateStudyBar(mins);
+  updateStudyBadge(mins);
+}
+
+function updateStudyBar(mins) {
+  const pct = Math.min(mins / 60 * 100, 100);
+  document.getElementById('studyBar').style.width = pct + '%';
+}
+
+function updateStudyBadge(mins) {
+  const badge = document.getElementById('studyBadge');
+  if (mins >= 60) badge.innerHTML = '<span class="badge full">✦ ساعة كاملة</span>';
+  else if (mins >= 30) badge.innerHTML = '<span class="badge half">◐ نصف الساعة</span>';
+  else if (mins > 0) badge.innerHTML = '<span class="badge low">◌ بداية جيدة</span>';
+  else badge.innerHTML = '';
+}
+
+// ============ SAVE DAY ============
+function saveDay() {
+  const ist = parseInt(document.getElementById('istCount').value) || 0;
+  const study = parseInt(document.getElementById('studyMins').value) || 0;
+
+  days[currentDay] = { ist, study, saved: true };
+  saveData();
+  buildGrid();
+  updateStreak();
+  showToast(`✦ اليوم ${currentDay} محفوظ`);
+}
+
+// ============ STREAK ============
+function updateStreak() {
+  let streak = 0;
+  for (let i = currentDay; i >= 1; i--) {
+    const d = days[i];
+    if (d && (d.ist > 0 || d.study > 0)) streak++;
+    else break;
+  }
+  document.getElementById('streakNum').textContent = streak;
+}
+
+// ============ AI INSIGHT ============
+async function getInsight() {
+  const apiKey = localStorage.getItem('openai_key') || '';
+  const ist = parseInt(document.getElementById('istCount').value) || 0;
+  const study = parseInt(document.getElementById('studyMins').value) || 0;
+  const streak = parseInt(document.getElementById('streakNum').textContent) || 0;
+
+  // Build history
+  const hist = [];
+  for (let i = Math.max(1, currentDay - 3); i < currentDay; i++) {
+    if (days[i]) hist.push(`يوم ${i}: استغفار ${days[i].ist || 0}/1000، دراسة ${days[i].study || 0}/60 دقيقة`);
+  }
+  const histStr = hist.length ? hist.join(' | ') : 'لا توجد بيانات سابقة';
+
+  const prompt = PROMPT_TEMPLATE(currentDay, ist, study, streak, histStr);
+  document.getElementById('promptCard').textContent = prompt;
+
+  const btn = document.getElementById('insightBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  document.getElementById('insightText').innerHTML = '<span class="spinner"></span>';
+  document.getElementById('insightStory').textContent = '';
+
+  if (!apiKey) {
+    // Fallback without API
+    const fallback = getFallbackInsight(ist, study, streak, currentDay);
+    renderInsight(fallback);
+    btn.disabled = false;
+    btn.textContent = '✦ احصل على رؤية';
+    return;
+  }
+
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        max_tokens: 800,
+        response_format: { type: 'json_object' },
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const result = JSON.parse(data.choices[0].message.content);
+    renderInsight(result);
+  } catch(e) {
+    const fallback = getFallbackInsight(ist, study, streak, currentDay);
+    renderInsight(fallback);
+    if (apiKey) showToast('خطأ في الاتصال — تم استخدام رؤية محلية');
+  }
+
+  btn.disabled = false;
+  btn.textContent = '✦ احصل على رؤية';
+}
+
+function renderInsight(data) {
+  document.getElementById('insightText').innerHTML = `
+    <div>
+      <div style="font-size:13px;color:var(--gold);opacity:0.6;margin-bottom:8px;font-family:'Space Mono',monospace">
+        ✦ ${data.symbolic_image || ''}
+      </div>
+      <div style="font-size:19px;line-height:2">${data.encouragement || ''}</div>
+      <div style="font-size:13px;color:var(--mist);margin-top:12px">${data.progress_insight || ''}</div>
+      <div style="font-size:12px;color:rgba(201,168,76,0.5);margin-top:8px;font-family:'Space Mono',monospace">
+        نمط: ${data.pattern || ''}
+      </div>
+      <div style="font-size:13px;color:#5dba8a;margin-top:10px;border-top:1px solid rgba(255,255,255,0.05);padding-top:10px">
+        💡 ${data.surprising_idea || ''}
+      </div>
+    </div>
+  `;
+  
+  if (data.micro_story) {
+    document.getElementById('insightStory').innerHTML = data.micro_story.replace(/\n/g, '<br>');
+  }
+}
+
+// ============ FALLBACK INSIGHTS ============
+function getFallbackInsight(ist, study, streak, day) {
+  const istPct = ist / 1000;
+  const studyPct = study / 60;
+  const avg = (istPct + studyPct) / 2;
+
+  const images = [
+    'نجمة تسقط في بحيرة هادئة — كل استغفار دائرة تتسع',
+    'ورقة مخطوطة تحت ضوء القمر — الكلمات تبقى والوقت يمضي',
+    'شمعة في ريح خفيفة — تتمايل ولا تنطفئ',
+    'جبل يكتسي الضباح — الصعود لا يُرى من الأسفل',
+    'بذرة تنكسر في التراب — الانكسار بداية النمو'
+  ];
+
+  const encouragements = [
+    'كل خطوة اليوم تُعيد رسم خارطة غدك — لا تتوقف',
+    'الاستغفار يُلين الحجارة — وأنت تُلين نفسك كل يوم',
+    'الدراسة ساعة يومياً تُبني إمبراطورية في مئة يوم',
+    'اليوم الصعب هو أثمن يوم في رحلتك',
+    'روحك تُصفّى بالذكر كما يُصفّى الذهب بالنار'
+  ];
+
+  const ideas = [
+    'اليوم: اربط كل ١٠٠ استغفار بشرب كوب ماء — اجعل جسدك يتذكر مع روحك',
+    'غداً: ادرس في مكان جديد لم تجلس فيه من قبل',
+    'جرّب: استغفر أثناء المشي — ١٠٠ خطوة = ١٠٠ استغفار',
+    'اقتراح: سجّل صوتك وأنت تتحدث عمّا تعلمته اليوم',
+    'تحدٍّ: اقرأ الدراسة بصوت عالٍ — يرسّخ في الذاكرة أكثر بـ٤٠٪'
+  ];
+
+  const idx = day % 5;
+
+  return {
+    symbolic_image: images[idx],
+    encouragement: encouragements[idx],
+    progress_insight: avg >= 0.8 ? 'يوم استثنائي — أنت في القمة العليا من الالتزام اليوم.' :
+                     avg >= 0.5 ? 'أكثر من النصف — الاتساق أهم من الكمال.' :
+                     ist > 0 || study > 0 ? 'البداية أصعب جزء — وقد تجاوزته.' :
+                     'كل يوم جديد فرصة — هذا اليوم لا يزال أمامك.',
+    pattern: streak >= 7 ? `سلسلة ${streak} أيام — هذا ليس عادة، هذا هوية` :
+             streak >= 3 ? 'ثلاثة أيام — البداية تتشكّل' : 'النمط لا يزال يتشكّل',
+    micro_story: `في اليوم ${day}، جلس الباحث أمام صفحة بيضاء.\nلم يكن الهدف بعيداً — كان يقترب خطوة.\nوالروح تُصفّى مثل السماء بعد المطر.`,
+    surprising_idea: ideas[idx]
+  };
+}
+
+function togglePrompt() {
+  const card = document.getElementById('promptCard');
+  card.style.display = card.style.display === 'none' ? 'block' : 'none';
+}
+
+// ============ TEST API ============
+async function testAPI() {
+  const key = localStorage.getItem('openai_key') || '';
+  if (!key) { showToast('أدخل مفتاح API أولاً'); return; }
+  
+  showToast('جاري الاختبار...');
+  try {
+    const res = await fetch('https://api.openai.com/v1/models', {
+      headers: { 'Authorization': `Bearer ${key}` }
+    });
+    if (res.ok) showToast('✦ الاتصال ناجح');
+    else showToast('✗ مفتاح غير صحيح');
+  } catch(e) {
+    showToast('✗ خطأ في الاتصال');
+  }
+}
+
+// ============ TOAST ============
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
