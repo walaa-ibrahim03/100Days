@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مئة يوم</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --parchment: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --ember: #c0392b;
+    --sage: #2d6a4f;
+    --mist: #8a9bb0;
+    --deep: #1a1a2e;
+    --friday: #7c3aed;
+    --friday-light: rgba(124,58,237,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Scheherazade New', serif;
+    background: var(--deep);
+    color: var(--parchment);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .stars {
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(2px 2px at 10% 80%, rgba(201,168,76,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 15%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 85%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(2px 2px at 75% 40%, rgba(201,168,76,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  header { text-align: center; padding: 40px 0 20px; }
+
+  .arabic-numeral {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    opacity: 0.7;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(201,168,76,0.3);
+    animation: breathe 4s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { text-shadow: 0 0 40px rgba(201,168,76,0.3); }
+    50% { text-shadow: 0 0 80px rgba(201,168,76,0.6), 0 0 120px rgba(201,168,76,0.2); }
+  }
+
+  .subtitle { font-size: 18px; color: var(--mist); margin-top: 8px; }
+
+  /* Date display */
+  .date-display {
+    text-align: center;
+    margin: 12px 0 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--mist);
+    letter-spacing: 2px;
+  }
+
+  .date-display.friday {
+    color: var(--friday);
+    font-weight: 700;
+    animation: fridayGlow 2s ease-in-out infinite;
+  }
+
+  @keyframes fridayGlow {
+    0%, 100% { text-shadow: 0 0 10px rgba(124,58,237,0.3); }
+    50% { text-shadow: 0 0 20px rgba(124,58,237,0.7); }
+  }
+
+  .friday-badge {
+    display: inline-block;
+    background: var(--friday-light);
+    border: 1px solid var(--friday);
+    color: #a78bfa;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 11px;
+    margin-top: 4px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* Day navigation */
+  .day-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 24px 0 16px;
+  }
+
+  .day-display {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-align: center;
+  }
+
+  .day-date-sub {
+    font-size: 10px;
+    color: var(--mist);
+    display: block;
+    margin-top: 3px;
+  }
+
+  .day-btn {
+    background: none;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .day-btn:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+
+  /* 100 Days Grid */
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    gap: 4px;
+    margin: 16px 0;
+    padding: 16px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .day-dot {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .day-dot.completed { background: var(--gold); }
+  .day-dot.partial { background: rgba(201,168,76,0.4); }
+  .day-dot.today {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid var(--gold);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .day-dot.is-friday {
+    border-bottom: 2px solid var(--friday) !important;
+  }
+  .day-dot.is-friday.completed { background: linear-gradient(135deg, var(--gold), #a78bfa); }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+    50% { box-shadow: 0 0 0 4px rgba(201,168,76,0); }
+  }
+
+  /* Goals */
+  .goals-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .goal-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .goal-card:hover { border-color: rgba(201,168,76,0.3); }
+
+  .goal-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .goal-card:hover::before { opacity: 1; }
+
+  .goal-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+  .goal-title { font-size: 20px; color: var(--gold); margin-bottom: 4px; }
+  .goal-subtitle { font-size: 13px; color: var(--mist); font-family: 'Space Mono', monospace; margin-bottom: 16px; }
+
+  .count-input-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+
+  .count-input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px;
+    color: var(--parchment);
+    font-family: 'Space Mono', monospace;
+    font-size: 24px;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .count-input:focus { border-color: var(--gold); }
+
+  .count-label {
+    font-size: 12px;
+    color: var(--mist);
+    font-family: 'Space Mono', monospace;
+    text-align: center;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  /* Arc */
+  .arc-container { display: flex; justify-content: center; margin: 8px 0; }
+  svg.arc { overflow: visible; }
+  .arc-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 6; }
+  .arc-fill { fill: none; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1); }
+  .arc-text { font-family: 'Space Mono', monospace; font-size: 14px; fill: var(--gold); text-anchor: middle; dominant-baseline: middle; }
+  .arc-sub { font-size: 9px; fill: var(--mist); font-family: 'Space Mono', monospace; text-anchor: middle; }
+
+  /* Study */
+  .study-display {
+    font-family: 'Space Mono', monospace;
+    font-size: 36px;
+    color: var(--parchment);
+    text-align: center;
+    letter-spacing: 4px;
+    margin: 8px 0;
+  }
+
+  .timer-btns { display: flex; gap: 8px; justify-content: center; }
+
+  .btn-timer {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--parchment);
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Scheherazade New', serif;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+
+  .btn-timer:hover, .btn-timer.active {
+    background: rgba(45,106,79,0.3);
+    border-color: var(--sage);
+    color: #5dba8a;
+  }
+
+  .study-bar-wrap {
+    margin-top: 12px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    height: 4px;
+    overflow: hidden;
+  }
+
+  .study-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sage), #5dba8a);
+    border-radius: 4px;
+    transition: width 1s linear;
+  }
+
+  /* Badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin-top: 8px;
+  }
+
+  .badge.full { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+  .badge.half { background: rgba(45,106,79,0.15); color: #5dba8a; border: 1px solid rgba(45,106,79,0.3); }
+  .badge.low { background: rgba(138,155,176,0.1); color: var(--mist); border: 1px solid rgba(138,155,176,0.2); }
+
+  /* ============ DAILY NOTE ============ */
+  .note-section {
+    margin: 20px 0;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .note-section::before {
+    content: '✒';
+    position: absolute;
+    top: -1px; right: 20px;
+    background: var(--deep);
+    padding: 0 8px;
+    color: var(--gold);
+    opacity: 0.5;
+    font-size: 14px;
+  }
+
+  .note-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    opacity: 0.6;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .note-label::before, .note-label::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: rgba(201,168,76,0.15);
+  }
+
+  .note-input {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    color: var(--parchment);
+    font-family: 'Scheherazade New', serif;
+    font-size: 17px;
+    width: 100%;
+    padding: 14px;
+    outline: none;
+    resize: none;
+    line-height: 1.8;
+    transition: border-color 0.2s;
+    min-height: 70px;
+  }
+
+  .note-input:focus { border-color: rgba(201,168,76,0.3); }
+  .note-input::placeholder { color: rgba(138,155,176,0.4); font-style: italic; }
+
+  .note-char-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--mist);
+    opacity: 0.5;
+    text-align: left;
+    margin-top: 4px;
+  }
+
+  /* ============ JOURNAL VIEW ============ */
+  .journal-btn {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--mist);
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: 'Scheherazade New', serif;
+    font-size: 15px;
+    width: 100%;
+    margin-top: 10px;
+    transition: all 0.3s;
+    text-align: center;
+  }
+
+  .journal-btn:hover { border-color: rgba(201,168,76,0.2); color: var(--gold); }
+
+  .journal-panel {
+    display: none;
+    margin-top: 16px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .journal-panel.open { display: block; }
+
+  .journal-entry {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 12px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .journal-day-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    opacity: 0.6;
+    min-width: 55px;
+    padding-top: 2px;
+  }
+
+  .journal-day-num.friday-entry { color: #a78bfa; opacity: 0.8; }
+
+  .journal-text { font-size: 15px; color: var(--parchment); line-height: 1.7; flex: 1; }
+  .journal-date { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--mist); opacity: 0.5; display: block; margin-top: 3px; }
+
+  /* ============ WEEKLY CHART ============ */
+  .chart-section {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px 0;
+  }
+
+  .chart-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    opacity: 0.6;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .chart-label::before, .chart-label::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: rgba(201,168,76,0.15);
+  }
+
+  .chart-wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 100px;
+    padding: 0 4px;
+  }
+
+  .chart-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .chart-bars {
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+    width: 100%;
+    height: 80px;
+  }
+
+  .chart-bar {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+    min-height: 2px;
+    transition: height 0.8s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+  }
+
+  .chart-bar.ist { background: linear-gradient(to top, var(--gold), rgba(201,168,76,0.5)); }
+  .chart-bar.study { background: linear-gradient(to top, #5dba8a, rgba(45,106,79,0.5)); }
+
+  .chart-day-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--mist);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .chart-day-label.friday-label { color: #a78bfa; font-weight: 700; }
+
+  .chart-legend {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--mist);
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+  }
+
+  /* ============ ACHIEVEMENT BADGES ============ */
+  .achievements-section {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px 0;
+  }
+
+  .achievements-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    opacity: 0.6;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .achievements-label::before, .achievements-label::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: rgba(201,168,76,0.15);
+  }
+
+  .badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+  }
+
+  .achievement {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .achievement.unlocked {
+    background: rgba(201,168,76,0.07);
+    border-color: rgba(201,168,76,0.25);
+  }
+
+  .achievement.unlocked::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(201,168,76,0.08), transparent 70%);
+  }
+
+  .achievement.locked { opacity: 0.35; filter: grayscale(1); }
+
+  .achievement-icon { font-size: 28px; display: block; margin-bottom: 6px; }
+  .achievement-name { font-size: 13px; color: var(--gold); display: block; margin-bottom: 3px; }
+  .achievement-desc { font-size: 10px; color: var(--mist); font-family: 'Space Mono', monospace; display: block; }
+  .achievement-date { font-size: 9px; color: rgba(201,168,76,0.5); font-family: 'Space Mono', monospace; display: block; margin-top: 4px; }
+
+  /* Save button */
+  .btn-save {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 8px;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-family: 'Scheherazade New', serif;
+    font-size: 17px;
+    width: 100%;
+    margin-top: 4px;
+    transition: all 0.3s;
+  }
+
+  .btn-save:hover { background: rgba(201,168,76,0.25); }
+
+  /* AI Insight */
+  .insight-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 20px;
+    padding: 28px;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .insight-card::after {
+    content: '✦';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 60px;
+    opacity: 0.03;
+    color: var(--gold);
+  }
+
+  .insight-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    opacity: 0.6;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .insight-label::before, .insight-label::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: rgba(201,168,76,0.2);
+  }
+
+  .insight-text {
+    font-size: 18px;
+    line-height: 1.9;
+    color: var(--parchment);
+    text-align: center;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .insight-story {
+    font-size: 15px;
+    color: var(--mist);
+    text-align: center;
+    margin-top: 16px;
+    line-height: 2;
+    font-style: italic;
+  }
+
+  .insight-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  .btn-insight {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--gold);
+    border-radius: 20px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-family: 'Scheherazade New', serif;
+    font-size: 14px;
+    transition: all 0.3s;
+  }
+
+  .btn-insight:hover { background: rgba(201,168,76,0.15); border-color: var(--gold); }
+  .btn-insight:disabled { opacity: 0.4; cursor: wait; }
+
+  /* API section */
+  .api-section {
+    background: rgba(255,255,255,0.02);
+    border: 1px dashed rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+
+  .api-section summary {
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--mist);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .api-input {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: var(--parchment);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    outline: none;
+  }
+
+  .api-input:focus { border-color: rgba(201,168,76,0.4); }
+
+  .prompt-card {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--mist);
+    line-height: 1.8;
+    white-space: pre-wrap;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+  }
+
+  /* Streak */
+  .streak-display { text-align: center; margin: 16px 0; }
+  .streak-num { font-family: 'Space Mono', monospace; font-size: 40px; color: var(--gold); line-height: 1; }
+  .streak-label { font-size: 13px; color: var(--mist); margin-top: 4px; }
+
+  .calligraphy {
+    text-align: center;
+    font-size: 48px;
+    color: var(--gold);
+    opacity: 0.15;
+    margin: 10px 0;
+    letter-spacing: 8px;
+  }
+
+  /* Spinner */
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(201,168,76,0.3);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(201,168,76,0.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-family: 'Scheherazade New', serif;
+    font-size: 16px;
+    transition: transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+    z-index: 1000;
+    text-align: center;
+    max-width: 90vw;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Achievement unlock animation */
+  @keyframes unlockPop {
+    0% { transform: scale(0.5); opacity: 0; }
+    70% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .achievement.just-unlocked { animation: unlockPop 0.5s ease-out forwards; }
+
+  @media (max-width: 600px) {
+    .goals-wrap { grid-template-columns: 1fr; }
+    h1 { font-size: 48px; }
+    .days-grid { grid-template-columns: repeat(10, 1fr); }
+    .badges-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<div class="container">
+  <header>
+    <span class="arabic-numeral">١٠٠ يوم • DAY <span id="dayNum">1</span></span>
+    <h1>مئة يوم</h1>
+    <p class="subtitle">رحلة التحوّل — ١٠٠ يوم من الالتزام</p>
+    <div class="date-display" id="todayDate"></div>
+  </header>
+
+  <!-- Day Navigation -->
+  <div class="day-selector">
+    <button class="day-btn" onclick="changeDay(-1)">‹</button>
+    <div class="day-display">
+      اليوم <span id="dayLabel">1</span> من 100
+      <span class="day-date-sub" id="dayDateSub"></span>
+    </div>
+    <button class="day-btn" onclick="changeDay(1)">›</button>
+  </div>
+
+  <!-- 100 Days Grid -->
+  <div class="days-grid" id="daysGrid"></div>
+
+  <!-- Goals -->
+  <div class="goals-wrap">
+    <!-- Istighfar -->
+    <div class="goal-card">
+      <span class="goal-icon">☽</span>
+      <div class="goal-title">الاستغفار</div>
+      <div class="goal-subtitle">GOAL: 1000 / DAY</div>
+
+      <div class="arc-container">
+        <svg class="arc" width="120" height="70" viewBox="0 0 120 70">
+          <path class="arc-bg" d="M 10 65 A 50 50 0 0 1 110 65" />
+          <path class="arc-fill" id="istArc"
+            d="M 10 65 A 50 50 0 0 1 110 65"
+            stroke="url(#goldGrad)"
+            stroke-dasharray="157"
+            stroke-dashoffset="157"
+          />
+          <defs>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#c9a84c"/>
+              <stop offset="100%" style="stop-color:#f0d078"/>
+            </linearGradient>
+          </defs>
+          <text class="arc-text" id="istPct" x="60" y="55">0%</text>
+          <text class="arc-sub" x="60" y="68">اكتمال</text>
+        </svg>
+      </div>
+
+      <div class="count-input-wrap">
+        <input type="number" class="count-input" id="istCount" placeholder="0" min="0" max="1000"
+          oninput="updateIst()" onchange="updateIst()">
+      </div>
+      <span class="count-label">كم مرة استغفرت اليوم؟</span>
+      <div id="istBadge"></div>
+    </div>
+
+    <!-- Study -->
+    <div class="goal-card">
+      <span class="goal-icon">✦</span>
+      <div class="goal-title">الدراسة</div>
+      <div class="goal-subtitle">GOAL: 60 MIN / DAY</div>
+
+      <div class="study-display" id="studyTime">00:00</div>
+
+      <div class="study-bar-wrap">
+        <div class="study-bar" id="studyBar" style="width:0%"></div>
+      </div>
+
+      <div style="margin: 10px 0">
+        <div class="count-label">أو أدخل الدقائق يدوياً:</div>
+        <input type="number" class="count-input" id="studyMins" placeholder="0" min="0" max="120"
+          oninput="updateStudyManual()" style="font-size:18px">
+      </div>
+
+      <div class="timer-btns">
+        <button class="btn-timer" id="timerBtn" onclick="toggleTimer()">▶ ابدأ</button>
+        <button class="btn-timer" onclick="resetTimer()">↺ إعادة</button>
+      </div>
+
+      <div id="studyBadge" style="margin-top:8px"></div>
+    </div>
+  </div>
+
+  <!-- Daily Note -->
+  <div class="note-section">
+    <div class="note-label">يوميات اليوم</div>
+    <textarea class="note-input" id="dailyNote" placeholder="اكتب جملة واحدة عن هذا اليوم... كيف كان؟ ماذا شعرت؟" 
+      maxlength="200" oninput="updateNoteCount()"></textarea>
+    <div class="note-char-count"><span id="noteCount">0</span>/200</div>
+    <button class="journal-btn" onclick="toggleJournal()">📖 اقرأ يومياتك كلها</button>
+    <div class="journal-panel" id="journalPanel"></div>
+  </div>
+
+  <!-- Save -->
+  <button class="btn-save" onclick="saveDay()">✦ حفظ يوم <span id="saveDayNum">1</span></button>
+
+  <!-- Weekly Chart -->
+  <div class="chart-section">
+    <div class="chart-label">آخر 7 أيام</div>
+    <div class="chart-wrap" id="weekChart"></div>
+    <div class="chart-legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--gold)"></div>
+        الاستغفار
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#5dba8a"></div>
+        الدراسة
+      </div>
+    </div>
+  </div>
+
+  <!-- Achievements -->
+  <div class="achievements-section">
+    <div class="achievements-label">شارات الإنجاز</div>
+    <div class="badges-grid" id="badgesGrid"></div>
+  </div>
+
+  <!-- AI Insight -->
+  <div class="insight-card">
+    <div class="insight-label">رؤية اليوم</div>
+    <div class="insight-text" id="insightText">
+      <span style="color:var(--mist);font-size:14px;font-family:'Space Mono',monospace">
+        أدخل بياناتك واضغط "احصل على رؤية"
+      </span>
+    </div>
+    <div class="insight-story" id="insightStory"></div>
+    <div class="insight-actions">
+      <button class="btn-insight" id="insightBtn" onclick="getInsight()">✦ احصل على رؤية</button>
+      <button class="btn-insight" onclick="togglePrompt()">{ prompt }</button>
+    </div>
+    <div class="prompt-card" id="promptCard"></div>
+  </div>
+
+  <!-- API Key -->
+  <details class="api-section">
+    <summary>⚙ إعدادات الذكاء الاصطناعي (ChatGPT API)</summary>
+    <p style="font-size:12px;color:var(--mist);margin-top:8px;line-height:1.8">
+      أدخل مفتاح OpenAI API الخاص بك للحصول على رؤى مخصصة.<br>
+      المفتاح يُحفظ في المتصفح فقط ولا يُرسل لأي مكان غير OpenAI.
+    </p>
+    <input type="password" class="api-input" id="apiKey" placeholder="sk-proj-..." oninput="saveApiKey()">
+    <div style="margin-top:8px">
+      <button class="btn-insight" onclick="testAPI()" style="font-size:12px">اختبار الاتصال</button>
+    </div>
+  </details>
+
+  <!-- Streak -->
+  <div style="text-align:center;margin:24px 0">
+    <div class="calligraphy">سُبْحَانَ اللّٰه</div>
+    <div class="streak-num" id="streakNum">0</div>
+    <div class="streak-label">يوم متتالي</div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ CONFIG ============
+// تاريخ بداية الرحلة — غيّره لتاريخ بدايتك الحقيقي
+const START_DATE = new Date('2026-03-01'); // اليوم الأول من رحلتك
+
+const ACHIEVEMENTS_DEF = [
+  { id: 'first_day',   icon: '🌱', name: 'أول خطوة',      desc: 'اليوم الأول',         req: d => Object.keys(d).length >= 1 },
+  { id: 'week1',       icon: '🥉', name: 'أسبوع كامل',    desc: '7 أيام متتالية',      req: (d,s) => s >= 7 },
+  { id: 'week2',       icon: '⭐', name: 'أسبوعان',       desc: '14 يوم متتالياً',     req: (d,s) => s >= 14 },
+  { id: 'month1',      icon: '🥈', name: 'شهر كامل',      desc: '30 يوم متتالياً',     req: (d,s) => s >= 30 },
+  { id: 'halfway',     icon: '🔥', name: 'منتصف الطريق',  desc: '50 يوماً مسجلة',      req: d => Object.keys(d).length >= 50 },
+  { id: 'ist_perfect', icon: '☽', name: 'ألف استغفار',   desc: 'يوم باستغفار كامل',   req: d => Object.values(d).some(x => x.ist >= 1000) },
+  { id: 'study_week',  icon: '📚', name: 'عالم الأسبوع',  desc: '7 أيام دراسة كاملة', req: d => Object.values(d).filter(x => x.study >= 60).length >= 7 },
+  { id: 'hundred',     icon: '🏆', name: 'مئة يوم',       desc: 'اكتملت الرحلة!',      req: (d,s) => s >= 100 },
+];
+
+// ============ STATE ============
+let currentDay = 1;
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+let days = {};
+let journalOpen = false;
+
+// ============ INIT ============
+window.onload = () => {
+  loadData();
+  detectTodayDay();
+  buildGrid();
+  loadApiKey();
+  loadDay(currentDay);
+  updateTodayDate();
+};
+
+function loadData() {
+  const saved = localStorage.getItem('100days_data');
+  if (saved) days = JSON.parse(saved);
+}
+
+function saveData() {
+  localStorage.setItem('100days_data', JSON.stringify(days));
+}
+
+function loadApiKey() {
+  const key = localStorage.getItem('openai_key');
+  if (key) document.getElementById('apiKey').value = key;
+}
+
+function saveApiKey() {
+  localStorage.setItem('openai_key', document.getElementById('apiKey').value);
+}
+
+// ============ DATE HELPERS ============
+function getDayDate(dayNum) {
+  const d = new Date(START_DATE);
+  d.setDate(d.getDate() + dayNum - 1);
+  return d;
+}
+
+function isFriday(dayNum) {
+  return getDayDate(dayNum).getDay() === 5;
+}
+
+function formatDate(date) {
+  return date.toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function formatDateShort(date) {
+  return date.toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' });
+}
+
+function detectTodayDay() {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const start = new Date(START_DATE);
+  start.setHours(0,0,0,0);
+  const diff = Math.floor((today - start) / (1000*60*60*24)) + 1;
+  if (diff >= 1 && diff <= 100) currentDay = diff;
+  else if (diff < 1) currentDay = 1;
+  else currentDay = 100;
+}
+
+function updateTodayDate() {
+  const date = getDayDate(currentDay);
+  const el = document.getElementById('todayDate');
+  const fri = isFriday(currentDay);
+  el.textContent = formatDate(date);
+  el.className = 'date-display' + (fri ? ' friday' : '');
+
+  // Friday badge in header
+  let fb = document.getElementById('fridayBadge');
+  if (fri) {
+    if (!fb) {
+      fb = document.createElement('div');
+      fb.id = 'fridayBadge';
+      fb.innerHTML = '<span class="friday-badge">✨ يوم الجمعة المبارك</span>';
+      document.querySelector('header').appendChild(fb);
+    }
+  } else {
+    if (fb) fb.remove();
+  }
+}
+
+// ============ GRID ============
+function buildGrid() {
+  const grid = document.getElementById('daysGrid');
+  grid.innerHTML = '';
+  for (let i = 1; i <= 100; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'day-dot';
+    dot.title = `يوم ${i} — ${formatDateShort(getDayDate(i))}`;
+    dot.onclick = () => { currentDay = i; loadDay(i); }
+
+    const d = days[i];
+    if (d) {
+      const avg = ((d.ist||0)/1000 + (d.study||0)/60) / 2;
+      if (avg >= 0.8) dot.classList.add('completed');
+      else if (avg >= 0.2) dot.classList.add('partial');
+    }
+    if (i === currentDay) dot.classList.add('today');
+    if (isFriday(i)) dot.classList.add('is-friday');
+    grid.appendChild(dot);
+  }
+}
+
+function loadDay(day) {
+  currentDay = day;
+  document.getElementById('dayNum').textContent = day;
+  document.getElementById('dayLabel').textContent = day;
+  document.getElementById('saveDayNum').textContent = day;
+
+  // Date under navigator
+  const dateObj = getDayDate(day);
+  const subEl = document.getElementById('dayDateSub');
+  subEl.textContent = formatDateShort(dateObj);
+  if (isFriday(day)) subEl.style.color = '#a78bfa';
+  else subEl.style.color = '';
+
+  if (timerRunning) toggleTimer();
+  timerSeconds = 0;
+  updateTimerDisplay();
+
+  const d = days[day] || {};
+  document.getElementById('istCount').value = d.ist || '';
+  document.getElementById('studyMins').value = d.study || '';
+  document.getElementById('dailyNote').value = d.note || '';
+  updateNoteCount();
+
+  updateIst();
+  updateStudyManual();
+  updateStreak();
+  buildGrid();
+  buildChart();
+  buildAchievements();
+  updateTodayDate();
+  if (journalOpen) buildJournal();
+}
+
+function changeDay(delta) {
+  const newDay = Math.max(1, Math.min(100, currentDay + delta));
+  loadDay(newDay);
+}
+
+// ============ ISTIGHFAR ============
+function updateIst() {
+  const val = parseInt(document.getElementById('istCount').value) || 0;
+  const pct = Math.min(val / 1000, 1);
+  const arcLength = 157;
+  document.getElementById('istArc').style.strokeDashoffset = arcLength - (arcLength * pct);
+  document.getElementById('istPct').textContent = Math.round(pct * 100) + '%';
+
+  const arc = document.getElementById('istArc');
+  if (pct >= 1) arc.setAttribute('stroke', 'url(#goldGrad)');
+  else if (pct >= 0.5) arc.setAttribute('stroke', 'rgba(201,168,76,0.7)');
+  else arc.setAttribute('stroke', 'rgba(201,168,76,0.4)');
+
+  const badge = document.getElementById('istBadge');
+  if (pct >= 1) badge.innerHTML = '<span class="badge full">✦ اكتمل الهدف</span>';
+  else if (pct >= 0.5) badge.innerHTML = '<span class="badge half">◐ أكثر من النصف</span>';
+  else if (pct > 0) badge.innerHTML = '<span class="badge low">◌ في البداية</span>';
+  else badge.innerHTML = '';
+}
+
+// ============ STUDY ============
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timerBtn').textContent = '▶ استمرار';
+    document.getElementById('timerBtn').classList.remove('active');
+  } else {
+    timerRunning = true;
+    document.getElementById('timerBtn').textContent = '⏸ إيقاف';
+    document.getElementById('timerBtn').classList.add('active');
+    timerInterval = setInterval(() => {
+      timerSeconds++;
+      updateTimerDisplay();
+      const mins = Math.floor(timerSeconds / 60);
+      document.getElementById('studyMins').value = mins;
+      updateStudyBar(mins);
+      updateStudyBadge(mins);
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  if (timerRunning) toggleTimer();
+  timerSeconds = 0;
+  document.getElementById('studyMins').value = '';
+  updateTimerDisplay();
+  updateStudyBar(0);
+  document.getElementById('studyBadge').innerHTML = '';
+  document.getElementById('timerBtn').textContent = '▶ ابدأ';
+}
+
+function updateTimerDisplay() {
+  const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+  const s = String(timerSeconds % 60).padStart(2, '0');
+  document.getElementById('studyTime').textContent = `${m}:${s}`;
+}
+
+function updateStudyManual() {
+  const mins = parseInt(document.getElementById('studyMins').value) || 0;
+  timerSeconds = mins * 60;
+  updateTimerDisplay();
+  updateStudyBar(mins);
+  updateStudyBadge(mins);
+}
+
+function updateStudyBar(mins) {
+  document.getElementById('studyBar').style.width = Math.min(mins / 60 * 100, 100) + '%';
+}
+
+function updateStudyBadge(mins) {
+  const badge = document.getElementById('studyBadge');
+  if (mins >= 60) badge.innerHTML = '<span class="badge full">✦ ساعة كاملة</span>';
+  else if (mins >= 30) badge.innerHTML = '<span class="badge half">◐ نصف الساعة</span>';
+  else if (mins > 0) badge.innerHTML = '<span class="badge low">◌ بداية جيدة</span>';
+  else badge.innerHTML = '';
+}
+
+// ============ NOTE ============
+function updateNoteCount() {
+  const val = document.getElementById('dailyNote').value;
+  document.getElementById('noteCount').textContent = val.length;
+}
+
+function toggleJournal() {
+  journalOpen = !journalOpen;
+  const panel = document.getElementById('journalPanel');
+  if (journalOpen) {
+    panel.classList.add('open');
+    buildJournal();
+  } else {
+    panel.classList.remove('open');
+  }
+}
+
+function buildJournal() {
+  const panel = document.getElementById('journalPanel');
+  const entries = Object.entries(days)
+    .filter(([,d]) => d.note && d.note.trim())
+    .sort(([a],[b]) => b - a);
+
+  if (!entries.length) {
+    panel.innerHTML = '<p style="color:var(--mist);font-size:14px;text-align:center;padding:16px">لا توجد يوميات بعد — ابدأ بكتابة أول جملة ✦</p>';
+    return;
+  }
+
+  panel.innerHTML = entries.map(([dayNum, d]) => {
+    const date = getDayDate(parseInt(dayNum));
+    const fri = isFriday(parseInt(dayNum));
+    return `
+      <div class="journal-entry">
+        <div class="journal-day-num ${fri ? 'friday-entry' : ''}">
+          يوم ${dayNum}${fri ? ' ☽' : ''}
+          <span class="journal-date">${formatDateShort(date)}</span>
+        </div>
+        <div class="journal-text">${d.note}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ============ SAVE ============
+function saveDay() {
+  const ist = parseInt(document.getElementById('istCount').value) || 0;
+  const study = parseInt(document.getElementById('studyMins').value) || 0;
+  const note = document.getElementById('dailyNote').value.trim();
+
+  const prevAchievements = getUnlockedAchievements();
+  days[currentDay] = { ist, study, note, saved: true, date: getDayDate(currentDay).toISOString() };
+  saveData();
+
+  buildGrid();
+  buildChart();
+  updateStreak();
+
+  // Check new achievements
+  const newAchievements = getUnlockedAchievements();
+  const newOnes = newAchievements.filter(a => !prevAchievements.includes(a));
+  buildAchievements(newOnes);
+
+  if (newOnes.length) {
+    const def = ACHIEVEMENTS_DEF.find(a => a.id === newOnes[0]);
+    if (def) setTimeout(() => showToast(`🎉 إنجاز جديد: ${def.icon} ${def.name}`), 500);
+  }
+
+  if (journalOpen) buildJournal();
+  showToast(`✦ اليوم ${currentDay} محفوظ`);
+}
+
+// ============ STREAK ============
+function updateStreak() {
+  let streak = 0;
+  for (let i = currentDay; i >= 1; i--) {
+    const d = days[i];
+    if (d && (d.ist > 0 || d.study > 0)) streak++;
+    else break;
+  }
+  document.getElementById('streakNum').textContent = streak;
+}
+
+function getStreak() {
+  let streak = 0;
+  for (let i = currentDay; i >= 1; i--) {
+    const d = days[i];
+    if (d && (d.ist > 0 || d.study > 0)) streak++;
+    else break;
+  }
+  return streak;
+}
+
+// ============ WEEKLY CHART ============
+function buildChart() {
+  const wrap = document.getElementById('weekChart');
+  wrap.innerHTML = '';
+
+  for (let i = Math.max(1, currentDay - 6); i <= currentDay; i++) {
+    const d = days[i] || {};
+    const istPct = Math.min((d.ist || 0) / 1000, 1);
+    const studyPct = Math.min((d.study || 0) / 60, 1);
+    const fri = isFriday(i);
+    const date = getDayDate(i);
+
+    const col = document.createElement('div');
+    col.className = 'chart-col';
+
+    col.innerHTML = `
+      <div class="chart-bars">
+        <div class="chart-bar ist" style="height:${istPct * 76}px" title="الاستغفار: ${d.ist||0}/1000"></div>
+        <div class="chart-bar study" style="height:${studyPct * 76}px" title="الدراسة: ${d.study||0}/60 دقيقة"></div>
+      </div>
+      <div class="chart-day-label ${fri ? 'friday-label' : ''}">
+        ${fri ? '☽' : ''}${formatDateShort(date).split(' ')[0]}
+        <br>${i}
+      </div>
+    `;
+    wrap.appendChild(col);
+  }
+}
+
+// ============ ACHIEVEMENTS ============
+function getUnlockedAchievements() {
+  const streak = getStreak();
+  return ACHIEVEMENTS_DEF
+    .filter(a => a.req(days, streak))
+    .map(a => a.id);
+}
+
+function buildAchievements(newOnes = []) {
+  const grid = document.getElementById('badgesGrid');
+  const unlocked = getUnlockedAchievements();
+  const streak = getStreak();
+
+  grid.innerHTML = ACHIEVEMENTS_DEF.map(a => {
+    const isUnlocked = a.req(days, streak);
+    const isNew = newOnes.includes(a.id);
+    const savedDate = days[`ach_${a.id}`];
+    if (isUnlocked && !days[`ach_${a.id}`]) {
+      days[`ach_${a.id}`] = new Date().toLocaleDateString('ar-SA');
+    }
+
+    return `
+      <div class="achievement ${isUnlocked ? 'unlocked' : 'locked'} ${isNew ? 'just-unlocked' : ''}">
+        <span class="achievement-icon">${a.icon}</span>
+        <span class="achievement-name">${a.name}</span>
+        <span class="achievement-desc">${a.desc}</span>
+        ${isUnlocked && days[`ach_${a.id}`] ? `<span class="achievement-date">${days[`ach_${a.id}`]}</span>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+// ============ AI INSIGHT ============
+const PROMPT_TEMPLATE = (day, ist, study, streak, history, note) => `
+Act as a creative spiritual-performance architect.
+Today is day ${day} of 100.
+
+DATA:
+- Istighfar (forgiveness prayer): ${ist}/1000 today
+- Study time: ${study}/60 minutes today
+- Consecutive streak: ${streak} days
+- Today's personal note: "${note || 'لم يكتب شيئاً'}"
+- Recent history (last 3 days): ${history}
+
+Transform this data into:
+
+1. SYMBOLIC_IMAGE: A poetic 1-line description of an image that represents today's spiritual state (metaphoric, Arabic style)
+2. MICRO_STORY: A 3-line emotional story about this day. Each line on a new line. Profound, minimal.
+3. PROGRESS_INSIGHT: One sharp psychological observation about their progress (max 2 sentences)
+4. PATTERN: If history shows a pattern, name it beautifully. If not enough data, write "النمط لا يزال يتشكّل"
+5. SURPRISING_IDEA: One creative, unexpected idea or challenge for tomorrow
+6. ENCOURAGEMENT: One powerful motivational sentence in Arabic. Different every time. Soul-touching.
+
+Style: Elegant. Minimal. Psychologically sharp. Poetic.
+Language: Arabic primarily.
+Format your response as JSON with keys: symbolic_image, micro_story, progress_insight, pattern, surprising_idea, encouragement
+`;
+
+async function getInsight() {
+  const apiKey = localStorage.getItem('openai_key') || '';
+  const ist = parseInt(document.getElementById('istCount').value) || 0;
+  const study = parseInt(document.getElementById('studyMins').value) || 0;
+  const note = document.getElementById('dailyNote').value.trim();
+  const streak = getStreak();
+
+  const hist = [];
+  for (let i = Math.max(1, currentDay - 3); i < currentDay; i++) {
+    if (days[i]) hist.push(`يوم ${i}: استغفار ${days[i].ist||0}/1000، دراسة ${days[i].study||0}/60 دقيقة`);
+  }
+  const histStr = hist.length ? hist.join(' | ') : 'لا توجد بيانات سابقة';
+
+  const prompt = PROMPT_TEMPLATE(currentDay, ist, study, streak, histStr, note);
+  document.getElementById('promptCard').textContent = prompt;
+
+  const btn = document.getElementById('insightBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  document.getElementById('insightText').innerHTML = '<span class="spinner"></span>';
+  document.getElementById('insightStory').textContent = '';
+
+  if (!apiKey) {
+    const fallback = getFallbackInsight(ist, study, streak, currentDay);
+    renderInsight(fallback);
+    btn.disabled = false;
+    btn.textContent = '✦ احصل على رؤية';
+    return;
+  }
+
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        max_tokens: 800,
+        response_format: { type: 'json_object' },
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    renderInsight(JSON.parse(data.choices[0].message.content));
+  } catch(e) {
+    renderInsight(getFallbackInsight(ist, study, streak, currentDay));
+    if (apiKey) showToast('خطأ في الاتصال — تم استخدام رؤية محلية');
+  }
+
+  btn.disabled = false;
+  btn.textContent = '✦ احصل على رؤية';
+}
+
+function renderInsight(data) {
+  document.getElementById('insightText').innerHTML = `
+    <div>
+      <div style="font-size:13px;color:var(--gold);opacity:0.6;margin-bottom:8px;font-family:'Space Mono',monospace">✦ ${data.symbolic_image||''}</div>
+      <div style="font-size:19px;line-height:2">${data.encouragement||''}</div>
+      <div style="font-size:13px;color:var(--mist);margin-top:12px">${data.progress_insight||''}</div>
+      <div style="font-size:12px;color:rgba(201,168,76,0.5);margin-top:8px;font-family:'Space Mono',monospace">نمط: ${data.pattern||''}</div>
+      <div style="font-size:13px;color:#5dba8a;margin-top:10px;border-top:1px solid rgba(255,255,255,0.05);padding-top:10px">💡 ${data.surprising_idea||''}</div>
+    </div>
+  `;
+  if (data.micro_story) {
+    document.getElementById('insightStory').innerHTML = data.micro_story.replace(/\n/g, '<br>');
+  }
+}
+
+function getFallbackInsight(ist, study, streak, day) {
+  const avg = ((ist/1000) + (study/60)) / 2;
+  const idx = day % 5;
+  const images = [
+    'نجمة تسقط في بحيرة هادئة — كل استغفار دائرة تتسع',
+    'ورقة مخطوطة تحت ضوء القمر — الكلمات تبقى والوقت يمضي',
+    'شمعة في ريح خفيفة — تتمايل ولا تنطفئ',
+    'جبل يكتسي الضباح — الصعود لا يُرى من الأسفل',
+    'بذرة تنكسر في التراب — الانكسار بداية النمو'
+  ];
+  const encouragements = [
+    'كل خطوة اليوم تُعيد رسم خارطة غدك — لا تتوقف',
+    'الاستغفار يُلين الحجارة — وأنت تُلين نفسك كل يوم',
+    'الدراسة ساعة يومياً تُبني إمبراطورية في مئة يوم',
+    'اليوم الصعب هو أثمن يوم في رحلتك',
+    'روحك تُصفّى بالذكر كما يُصفّى الذهب بالنار'
+  ];
+  const ideas = [
+    'اربط كل ١٠٠ استغفار بشرب كوب ماء — اجعل جسدك يتذكر مع روحك',
+    'ادرس في مكان جديد لم تجلس فيه من قبل',
+    'استغفر أثناء المشي — ١٠٠ خطوة = ١٠٠ استغفار',
+    'سجّل صوتك وأنت تتحدث عمّا تعلمته اليوم',
+    'اقرأ الدراسة بصوت عالٍ — يرسّخ في الذاكرة أكثر بـ٤٠٪'
+  ];
+  return {
+    symbolic_image: images[idx],
+    encouragement: encouragements[idx],
+    progress_insight: avg >= 0.8 ? 'يوم استثنائي — أنت في القمة العليا من الالتزام اليوم.' :
+                     avg >= 0.5 ? 'أكثر من النصف — الاتساق أهم من الكمال.' :
+                     ist > 0 || study > 0 ? 'البداية أصعب جزء — وقد تجاوزته.' :
+                     'كل يوم جديد فرصة — هذا اليوم لا يزال أمامك.',
+    pattern: streak >= 7 ? `سلسلة ${streak} أيام — هذا ليس عادة، هذا هوية` :
+             streak >= 3 ? 'ثلاثة أيام — البداية تتشكّل' : 'النمط لا يزال يتشكّل',
+    micro_story: `في اليوم ${day}، جلس الباحث أمام صفحة بيضاء.\nلم يكن الهدف بعيداً — كان يقترب خطوة.\nوالروح تُصفّى مثل السماء بعد المطر.`,
+    surprising_idea: ideas[idx]
+  };
+}
+
+function togglePrompt() {
+  const card = document.getElementById('promptCard');
+  card.style.display = card.style.display === 'none' ? 'block' : 'none';
+}
+
+async function testAPI() {
+  const key = localStorage.getItem('openai_key') || '';
+  if (!key) { showToast('أدخل مفتاح API أولاً'); return; }
+  showToast('جاري الاختبار...');
+  try {
+    const res = await fetch('https://api.openai.com/v1/models', {
+      headers: { 'Authorization': `Bearer ${key}` }
+    });
+    showToast(res.ok ? '✦ الاتصال ناجح' : '✗ مفتاح غير صحيح');
+  } catch(e) { showToast('✗ خطأ في الاتصال'); }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
